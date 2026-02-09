@@ -27,7 +27,7 @@ public class UserService {
     }
 
     public User editUser(Long id, User changes){
-        User user = userRepository.findById(id).orElse(null);
+        User user = userRepository.getReferenceById(id);
 
         user.setName(changes.getName());
         user.setEmail(changes.getEmail());
