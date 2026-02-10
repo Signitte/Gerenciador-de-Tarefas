@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.user.UserCreateDto;
+import com.example.demo.dto.user.UserResponseDto;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,20 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public User createUser(User user){
-        return userRepository.save(user);
+    public UserResponseDto createUser(UserCreateDto dto){
+        User user = new User();
+
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+
+        user = userRepository.save(user);
+
+        return new UserResponseDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail()
+        );
     }
 
     public User editUser(Long id, User changes){

@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.task.TaskCreateDto;
+import com.example.demo.dto.task.TaskResponseDto;
 import com.example.demo.entity.Project;
 import com.example.demo.entity.task.Task;
 import com.example.demo.entity.task.TaskStatus;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.locks.Condition;
+
 
 @Service
 public class TaskService {
@@ -27,12 +31,26 @@ public class TaskService {
         return taskRepository.findById(id).orElse(null);
     }
 
-    public Task createTask(Task task, Long projectId){
-        Project project = projectRepository.findById(projectId).orElse(null);
+    public TaskResponseDto createTask(TaskCreateDto dto){
+        Project project = projectRepository.findById(dto.getProjectId())
+                .orElseThrow(() -> new RuntimeException("Project not found"));
 
+        Task task = new Task();
+
+        task.setTitle(dto.getTitle());
+        task.setDescription(dto.getDescription());
         task.setProject(project);
         task.setCondition(TaskStatus.To_Do);
-        return taskRepository.save(task);
+
+        task = taskRepository.save(task);
+
+        return new TaskResponseDto(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getCondition(),
+                project.getId()
+        );
     }
 
     public Task editTask(Task changes, Long id){

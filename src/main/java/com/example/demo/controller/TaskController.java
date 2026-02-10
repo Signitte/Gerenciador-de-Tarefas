@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.task.TaskCreateDto;
 import com.example.demo.entity.task.Task;
 import com.example.demo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,9 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody Task task, @RequestParam Long projectId){
+    public ResponseEntity<?> createUser(@RequestBody TaskCreateDto dto){
         try {
-            return new ResponseEntity<>(taskService.createTask(task,projectId),HttpStatus.CREATED);
+            return new ResponseEntity<>(taskService.createTask(dto),HttpStatus.CREATED);
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
