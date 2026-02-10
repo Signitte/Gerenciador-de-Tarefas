@@ -1,5 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.project.ProjectCreateDto;
+import com.example.demo.dto.project_member.ProjectMemberCreateDto;
+import com.example.demo.dto.project_member.ProjectMemberResponseDto;
 import com.example.demo.entity.Project;
 import com.example.demo.entity.ProjectMember;
 import com.example.demo.entity.User;
@@ -22,20 +25,26 @@ public class ProjectMemberService {
     @Autowired
     private UserRepository userRepository;
 
-    public ProjectMember addMember(Long projectId, Long userId) {
+    public ProjectMemberResponseDto addMember(ProjectMemberCreateDto dto) {
 
-        Project project = projectRepository.findById(projectId)
+        Project project = projectRepository.findById(dto.getProjectId())
                 .orElseThrow(() -> new RuntimeException("Project not found"));
 
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         ProjectMember member = new ProjectMember();
-
         member.setProject(project);
         member.setUser(user);
 
-        return projectMemberRepository.save(member);
+        member = projectMemberRepository.save(member);
+
+
+        return new ProjectMemberResponseDto(
+                member.getId(),
+                member.getUser().getId(),
+                member.getProject().getId()
+        );
     }
 
     public List<ProjectMember> listMembers(Long projectId){

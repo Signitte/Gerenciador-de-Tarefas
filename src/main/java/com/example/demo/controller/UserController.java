@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.user.UserCreateDto;
+import com.example.demo.dto.user.UserResponseDto;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +29,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User user){
+    public ResponseEntity<?> createUser(@RequestBody UserCreateDto dto){
         try {
-            return new ResponseEntity<>(userService.createUser(user),HttpStatus.CREATED);
+            return new ResponseEntity<>(userService.createUser(dto),HttpStatus.CREATED);
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

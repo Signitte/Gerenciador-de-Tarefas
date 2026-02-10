@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.project_member.ProjectMemberCreateDto;
 import com.example.demo.entity.ProjectMember;
 import com.example.demo.service.ProjectMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,9 @@ public class ProjectMemberController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addMember(@RequestParam Long projectId, @RequestParam Long userId) {
+    public ResponseEntity<?> addMember(@RequestBody ProjectMemberCreateDto dto) {
         try {
-            return new ResponseEntity<>(projectMemberService.addMember(projectId,userId), HttpStatus.CREATED);
+            return new ResponseEntity<>(projectMemberService.addMember(dto), HttpStatus.CREATED);
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

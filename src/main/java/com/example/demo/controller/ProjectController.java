@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.project.ProjectCreateDto;
 import com.example.demo.entity.Project;
 import com.example.demo.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,9 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createProject(@RequestBody Project project){
+    public ResponseEntity<?> createProject(@RequestBody ProjectCreateDto dto){
         try {
-            return new ResponseEntity<>(projectService.createProject(project),HttpStatus.CREATED);
+            return new ResponseEntity<>(projectService.createProject(dto),HttpStatus.CREATED);
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
