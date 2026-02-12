@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.project.ProjectCreateDto;
 import com.example.demo.entity.Project;
 import com.example.demo.service.ProjectService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createProject(@RequestBody ProjectCreateDto dto){
+    public ResponseEntity<?> createProject(@RequestBody @Valid ProjectCreateDto dto){
         try {
             return new ResponseEntity<>(projectService.createProject(dto),HttpStatus.CREATED);
         }catch (IllegalArgumentException e){

@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.project_member.ProjectMemberCreateDto;
 import com.example.demo.entity.ProjectMember;
 import com.example.demo.service.ProjectMemberService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class ProjectMemberController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addMember(@RequestBody ProjectMemberCreateDto dto) {
+    public ResponseEntity<?> addMember(@RequestBody @Valid ProjectMemberCreateDto dto) {
         try {
             return new ResponseEntity<>(projectMemberService.addMember(dto), HttpStatus.CREATED);
         }catch (IllegalArgumentException e){
