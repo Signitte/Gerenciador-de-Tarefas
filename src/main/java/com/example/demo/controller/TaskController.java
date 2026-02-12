@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.task.TaskCreateDto;
 import com.example.demo.entity.task.Task;
 import com.example.demo.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody TaskCreateDto dto){
+    public ResponseEntity<?> createUser(@RequestBody @Valid TaskCreateDto dto){
         try {
             return new ResponseEntity<>(taskService.createTask(dto),HttpStatus.CREATED);
         }catch (IllegalArgumentException e){
