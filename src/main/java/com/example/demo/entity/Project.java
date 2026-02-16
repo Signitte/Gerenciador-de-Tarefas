@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import com.example.demo.entity.task.Task;
+import com.example.demo.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
