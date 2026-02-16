@@ -1,16 +1,19 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.user.UserCreateDto;
-import com.example.demo.dto.user.UserResponseDto;
-import com.example.demo.entity.User;
+import com.example.demo.entity.user.User;
 import com.example.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/user")
 @RestController
@@ -39,9 +42,26 @@ public class UserController {
 
     }
 
+    //Não foi apagado pois mais testes serão feitos ainda.
+    /*@GetMapping("/whoami")
+    public Map<String, Object> whoami(Authentication authentication) {
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", authentication.getName());
+        data.put("roles", authentication.getAuthorities());
+
+        return data;
+    }*/
+
     @PutMapping("/{id}")
     public ResponseEntity<User> editUser(@PathVariable Long id, @RequestBody User changes){
         return new ResponseEntity<>(userService.editUser(id, changes),HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("{id}/promote")
+    public void promoteToAdmin(@PathVariable Long id){
+        userService.promoteToAdmin(id);
     }
 
     @DeleteMapping("/{id}")

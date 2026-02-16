@@ -1,11 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.project.ProjectCreateDto;
 import com.example.demo.dto.project_member.ProjectMemberCreateDto;
 import com.example.demo.dto.project_member.ProjectMemberResponseDto;
 import com.example.demo.entity.Project;
 import com.example.demo.entity.ProjectMember;
-import com.example.demo.entity.User;
+import com.example.demo.entity.user.User;
 import com.example.demo.repository.ProjectMemberRepository;
 import com.example.demo.repository.ProjectRepository;
 import com.example.demo.repository.UserRepository;
